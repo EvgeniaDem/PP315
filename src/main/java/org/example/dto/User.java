@@ -8,19 +8,28 @@ public class User {
 
     private String lastName;
 
-    private Integer age;
+    private Byte age;
 
     public User() {
     }
 
-    public User(Long id, String name, String lastName, Integer age) {
+    public User(Long id) {
+        this.id = id;
+    }
+
+    public User(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
+    }
+
+    public User(Long id, String name, String lastName, Byte age) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
     }
 
-    public User(String name, String lastName, Integer age) {
+    public User(String name, String lastName, Byte age) {
         this(null, name, lastName, age);
     }
 
@@ -52,7 +61,7 @@ public class User {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Byte age) {
         this.age = age;
     }
 

@@ -1,3 +1,4 @@
+/*
 import org.example.dto.User;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,38 +22,59 @@ public class Consumer {
         String url = "http://94.198.50.185:7081/api/users";
 
         // получаем headers нашего http-запроса
-        ResponseEntity<User[]> response = restTemplate.getForEntity(url, User[].class);
+        HttpHeaders getAllHeaders = restTemplate.headForHeaders(url, HttpHeaders.class);
+
+        // получаем header, содержащий cookie
+        List<String> cookies = getAllHeaders.get("Set-Cookie");
+        String cookie = cookies.get(0);
+        String[] str = cookie.split(";");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie", str[0]);
+
+        */
+/*ResponseEntity<User[]> response = restTemplate.getForEntity(url, User[].class);
         User[] users = response.getBody();
         System.out.println("Users: " + Arrays.toString(users));
+        String sessionId = getSessionId(response);*//*
 
-        String sessionId = getSessionId(response);
 
         // SAVE USER
         User user = new User("James", "Brown", 15);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(COOKIE, sessionId);
+        */
+/*HttpHeaders saveHeaders = new HttpHeaders();
+        headers.add(COOKIE, sessionId);*//*
+
 
         // упаковываем JSON и header (он же cookie) в объект HttpEntity
         HttpEntity<User> request = new HttpEntity<>(user, headers);
 
         ResponseEntity<String> responseCode = restTemplate.postForEntity(url, request, String.class);
         System.out.println("ResponseCode: " + responseCode.getBody());
+        List<String> updateCookie = responseCode.getHeaders().get("Set-Cookie");
+        String cookieUpdate = updateCookie.get(0);
+        String[] str1 = cookieUpdate.split(";");
 
+        HttpHeaders headers1 = new HttpHeaders();
+        headers.add("Set-Cookie", str1[0]);
 
         // UPDATE USER
-        HttpHeaders updateHeaders = new HttpHeaders();
+        */
+/*HttpHeaders updateHeaders = new HttpHeaders();
         updateHeaders.add(COOKIE, sessionId);
-        System.out.println("Headers: " + updateHeaders);
+        System.out.println("Headers: " + updateHeaders);*//*
+
 
         User userToUpdate = new User(3L, "Thomas", "Shelby", 15);
 
-        HttpEntity<User> updateRequest = new HttpEntity<>(userToUpdate, updateHeaders);
-        ResponseEntity<String> updateResponse = restTemplate.exchange(url+"/2", HttpMethod.PUT, updateRequest, String.class);
+        HttpEntity<User> updateRequest = new HttpEntity<>(userToUpdate, headers1);
+        ResponseEntity<String> updateResponse = restTemplate.exchange(url, HttpMethod.PUT, updateRequest, String.class);
         String updateCode = updateResponse.getBody();
-        System.out.println("updateCode: "+ updateCode);
+        System.out.println("updateCode: " + updateCode);
 
 
- /*       // DELETE USER
+ */
+/*       // DELETE USER
         HttpEntity<Map<Object, Object>> requestToDelete = new HttpEntity<>(jsonToUpdate, headers);
         ResponseEntity<String> responseEntityDelete = restTemplate.exchange(url,
                 HttpMethod.DELETE,
@@ -60,7 +82,8 @@ public class Consumer {
                 String.class,
                 params);
         String userDetailsDelete = responseEntityDelete.getBody();
-        System.out.println(userDetailsDelete);*/
+        System.out.println(userDetailsDelete);*//*
+
     }
 
     private static String getSessionId(ResponseEntity<?> response) {
@@ -75,3 +98,4 @@ public class Consumer {
         return sessionId;
     }
 }
+*/
